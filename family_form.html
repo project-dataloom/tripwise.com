@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Travel Preferences</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #495057;
+            font-weight: 600;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #fff9f0;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .btn-generate {
+            background-color: #ff6b6b;
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .btn-generate:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            background-color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #ff9a3c;
+            box-shadow: 0 0 0 0.25rem rgba(255, 154, 60, 0.25);
+        }
+        .travel-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .autocomplete-results {
+            position: absolute;
+            background: white;
+            z-index: 1000;
+            width: calc(100% - 30px);
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .autocomplete-item {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        .autocomplete-item:hover {
+            background-color: #f8f9fa;
+        }
+        .input-with-autocomplete {
+            position: relative;
+        }
+        .family-section {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .child-age-input {
+            max-width: 80px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .child-age-item {
+            margin-bottom: 8px;
+        }
+        .family-icon {
+            color: #ff9a3c;
+            margin-right: 8px;
+        }
+        .kid-friendly-toggle {
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background-color: #e3f2fd;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .kid-friendly-toggle.active {
+            background-color: #bbdefb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+    <div class="card">
+        <div class="card-body">
+            <h2><span class="travel-icon">👨‍👩‍👧‍👦</span>Family Travel Preferences<span class="travel-icon">🚸</span></h2>
+
+            <!-- Start and End Locations -->
+            <div class="row g-3">
+                <div class="col-md-6 input-with-autocomplete">
+                    <label for="start" class="form-label fw-semibold">From</label>
+                    <input type="text" class="form-control" id="start" placeholder="City, country" required autocomplete="off">
+                    <div id="start-autocomplete" class="autocomplete-results" style="display: none;"></div>
+                </div>
+                <div class="col-md-6 input-with-autocomplete">
+                    <label for="end" class="form-label fw-semibold">To</label>
+                    <input type="text" class="form-control" id="end" placeholder="City, country" required autocomplete="off">
+                    <div id="end-autocomplete" class="autocomplete-results" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Date Picker Section -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                    <label for="start-date" class="form-label fw-semibold">Start Date</label>
+                    <input type="date" class="form-control" id="start-date" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="end-date" class="form-label fw-semibold">End Date</label>
+                    <input type="date" class="form-control" id="end-date" required>
+                </div>
+            </div>
+
+            <!-- Family Information Section -->
+            <div class="family-section mt-4">
+                <h5 class="fw-semibold"><span class="family-icon">👪</span>Family Information</h5>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Number of Adults</label>
+                    <input type="number" class="form-control" id="adults" min="1" max="10" value="2" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Number of Children</label>
+                    <input type="number" class="form-control" id="children" min="0" max="10" value="0" onchange="updateChildAgeInputs()">
+                </div>
+                
+                <div id="child-ages-container" style="display: none;">
+                    <label class="form-label fw-semibold">Children's Ages</label>
+                    <div id="child-ages"></div>
+                </div>
+                
+                <div class="kid-friendly-toggle" onclick="toggleKidFriendly()">
+                    <span class="family-icon">🧸</span>
+                    <span>Kid-friendly activities preferred</span>
+                    <input type="checkbox" id="kid-friendly" style="display: none;">
+                    <span id="kid-friendly-icon" style="margin-left: auto;">❌</span>
+                </div>
+            </div>
+
+            <!-- Generate Trip Button -->
+            <div class="text-center mt-5">
+                <button class="btn btn-generate btn-lg" onclick="generateTrip()">
+                    Plan Our Family Trip
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let isKidFriendly = false;
+    let debounceTimer;
+
+    // Set minimum date to today
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('start-date').min = today;
+        
+        // Set end date min to start date
+        document.getElementById('start-date').addEventListener('change', function() {
+            document.getElementById('end-date').min = this.value;
+        });
+
+        // Initialize autocomplete for start and end locations
+        setupAutocomplete('start', 'start-autocomplete');
+        setupAutocomplete('end', 'end-autocomplete');
+        
+        // Initialize child age inputs based on default value
+        updateChildAgeInputs();
+    });
+
+    // Function to setup autocomplete for an input field
+    function setupAutocomplete(inputId, resultsId) {
+        const input = document.getElementById(inputId);
+        const resultsContainer = document.getElementById(resultsId);
+
+        input.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            const query = this.value.trim();
+            
+            if (query.length < 3) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetchAutocompleteResults(query, resultsContainer, input);
+            }, 300);
+        });
+
+        // Hide results when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (e.target !== input) {
+                resultsContainer.style.display = 'none';
+            }
+        });
+    }
+    
+    // Function to fetch autocomplete results from Nominatim API
+    function fetchAutocompleteResults(query, resultsContainer, inputField) {
+        const url = "https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(query) + "&addressdetails=1&limit=5";
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    resultsContainer.style.display = 'none';
+                    return;
+                }
+
+                resultsContainer.innerHTML = '';
+                data.forEach(item => {
+                    const displayName = item.display_name.split(',').slice(0, 3).join(',');
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.textContent = displayName;
+                    div.addEventListener('click', function() {
+                        inputField.value = displayName;
+                        resultsContainer.style.display = 'none';
+                    });
+                    resultsContainer.appendChild(div);
+                });
+                resultsContainer.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching autocomplete results:', error);
+                resultsContainer.style.display = 'none';
+            });
+    }
+
+    // Function to update child age inputs based on number of children
+    function updateChildAgeInputs() {
+        const numChildren = parseInt(document.getElementById('children').value);
+        const container = document.getElementById('child-ages');
+        const agesContainer = document.getElementById('child-ages-container');
+        
+        container.innerHTML = '';
+        
+        if (numChildren > 0) {
+            agesContainer.style.display = 'block';
+            for (let i = 1; i <= numChildren; i++) {
+                const div = document.createElement('div');
+                div.className = 'child-age-item';
+                div.innerHTML = `
+                    <label>Child ${i} Age:</label>
+                    <input type="number" class="form-control child-age-input" id="child-age-${i}" min="0" max="18" placeholder="Age">
+                    <span>years old</span>
+                `;
+                container.appendChild(div);
+            }
+        } else {
+            agesContainer.style.display = 'none';
+        }
+    }
+
+    // Function to toggle kid-friendly preference
+    function toggleKidFriendly() {
+        const toggle = document.querySelector('.kid-friendly-toggle');
+        const icon = document.getElementById('kid-friendly-icon');
+        isKidFriendly = !isKidFriendly;
+        
+        if (isKidFriendly) {
+            toggle.classList.add('active');
+            icon.textContent = '✅';
+        } else {
+            toggle.classList.remove('active');
+            icon.textContent = '❌';
+        }
+    }
+
+    // Function to generate the trip details
+    function generateTrip() {
+        const start = document.getElementById('start').value.trim();
+        const end = document.getElementById('end').value.trim();
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const adults = document.getElementById('adults').value;
+        const children = document.getElementById('children').value;
+
+        // Validate required fields
+        if (!start || !end || !startDate || !endDate || !adults) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        // Validate dates
+        if (new Date(endDate) < new Date(startDate)) {
+            alert('Return date must be after departure date.');
+            return;
+        }
+
+        // Collect children's ages
+        const childAges = [];
+        if (parseInt(children) > 0) {
+            for (let i = 1; i <= parseInt(children); i++) {
+                const ageInput = document.getElementById(`child-age-${i}`);
+                if (ageInput && ageInput.value) {
+                    childAges.push(ageInput.value);
+                }
+            }
+        }
+
+        // Prepare trip details
+        let message = `🌟 Your Family Trip Plan 🌟\n\n`;
+        message += `👨‍👩‍👧‍👦 Family: ${adults} adult(s)`;
+        if (children > 0) {
+            message += `, ${children} child(ren)`;
+            if (childAges.length > 0) {
+                message += ` (ages: ${childAges.join(', ')})`;
+            }
+        }
+        message += `\n`;
+        message += `✈ From: ${start}\n`;
+        message += `🏁 To: ${end}\n`;
+        message += `📅 Dates: ${formatDate(startDate)} → ${formatDate(endDate)}\n`;
+        message += `🧸 Kid-friendly: ${isKidFriendly ? 'Yes' : 'No'}\n\n`;
+        message += `We're creating your perfect family itinerary...`;
+
+        alert(message);
+        alert("Redirecting to the next page please click this ok button...");
+        window.location.href = "Smartpacking.html"; // Replace with your HTML file path
+       }
+
+    // Helper function to format date
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+</script>
+
+</body>
+</html>

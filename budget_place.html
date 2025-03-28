@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Travel Destinations | World's Finest</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #4a6491;
+            --accent-gold: #d4af37;
+            --light-bg: #f8f9fa;
+            --dark-text: #2c3e50;
+            --light-text: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Premium Header */
+        .header-container {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 40px 50px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid var(--accent-gold);
+        }
+        
+        .header-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .header-container::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0) 70%);
+            transform: rotate(30deg);
+            z-index: 2;
+        }
+        
+        .heading {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1.5px;
+            position: relative;
+            z-index: 3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subheading {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 12px;
+            font-weight: 300;
+            position: relative;
+            z-index: 3;
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        
+        /* Filter Dropdown */
+        .filter-container {
+            margin: 30px 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .filter-dropdown {
+            position: relative;
+            width: 250px;
+        }
+        
+        .filter-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-button:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.4);
+        }
+        
+        .filter-button i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .filter-button.active i {
+            transform: rotate(180deg);
+        }
+        
+        .filter-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 10;
+            overflow: hidden;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .filter-options.show {
+            display: block;
+        }
+        
+        .filter-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-option:hover {
+            background: #f0f4f8;
+            color: var(--secondary-color);
+        }
+        
+        .filter-option.active {
+            background: var(--accent-gold);
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* Premium Destination Grid */
+        .destination-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        /* Premium Destination Card */
+        .destination-box {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            border-top: 4px solid var(--accent-gold);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .destination-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .destination-box.hidden {
+            display: none;
+        }
+        
+        .destination-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .destination-box::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+        }
+        
+        .destination-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .destination-box:hover .destination-image {
+            transform: scale(1.05);
+        }
+        
+        .destination-details {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .destination-name {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 24px;
+            color: var(--light-text);
+            position: absolute;
+            top: -60px;
+            left: 25px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .location {
+            color: var(--light-text);
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: -30px;
+            left: 25px;
+        }
+        
+        .location i {
+            margin-right: 10px;
+            color: var(--accent-gold);
+        }
+        
+        /* Content sections that will be shown based on filter */
+        .content-section {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--light-text);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-gold);
+        }
+        
+        .section-content {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 8px;
+            color: var(--dark-text);
+        }
+        
+        .section-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .section-list li {
+            margin-bottom: 8px;
+        }
+        
+        .highlights {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .highlight {
+            background: rgba(255,255,255,0.9);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--dark-text);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .best-time {
+            font-size: 15px;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+        
+        .best-time i {
+            color: var(--accent-gold);
+            margin-right: 8px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+        
+        .stars {
+            color: var(--accent-gold);
+            margin-right: 5px;
+        }
+        
+        .rating-number {
+            color: var(--light-text);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        /* Premium Button Styles */
+        .explore-button {
+            align-self: flex-start;
+            color: var(--dark-text);
+            background: var(--accent-gold);
+            border: none;
+            padding: 12px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: auto;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .explore-button:hover {
+            background: #e6c34d;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(212, 175, 55, 0.6);
+            color: var(--dark-text);
+        }
+        
+        .explore-button i {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .explore-button:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Premium Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-button::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(to right, 
+                          rgba(255,255,255,0) 0%, 
+                          rgba(255,255,255,0.2) 50%, 
+                          rgba(255,255,255,0) 100%);
+            transform: rotate(30deg) translate(-20px, -40px);
+            transition: all 0.5s ease;
+        }
+        
+        .nav-button:hover::after {
+            transform: rotate(30deg) translate(20px, 40px);
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(44, 62, 80, 0.4);
+        }
+        
+        .nav-button i {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-button:hover i {
+            transform: translateX(-3px);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 30px;
+            }
+            
+            .heading {
+                font-size: 32px;
+            }
+            
+            .destination-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .filter-container {
+                justify-content: center;
+            }
+            
+            .filter-dropdown {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Premium Header -->
+        <div class="header-container">
+            <h1 class="heading">Travel Destinations</h1>
+            <p class="subheading">Experience the world's most exquisite locations with our curated selection of premium destinations. From iconic cities to hidden gems, discover where luxury meets adventure.</p>
+        </div>
+        
+        <!-- Filter Dropdown -->
+        <div class="filter-container">
+            <div class="filter-dropdown">
+                <button class="filter-button" id="filterButton">
+                    <span>Filter by Interest</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="filter-options" id="filterOptions">
+                    <div class="filter-option" data-filter="all">All Destinations</div>
+                    <div class="filter-option" data-filter="beaches">Beaches</div>
+                    <div class="filter-option" data-filter="pilgrims">Pilgrims</div>
+                    <div class="filter-option" data-filter="insights">Local Insights</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Premium Destination Grid -->
+        <div class="destination-container">
+            <!-- Destination 1 - Santorini (Beaches) -->
+            <div class="destination-box" data-categories="beaches">
+                <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Santorini, Greece" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Santorini, Greece</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Aegean Paradise
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> May-Oct
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-number">4.7</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Beaches Content -->
+                    <div class="content-section active" id="santorini-beaches">
+                        <div class="section-title">
+                            <i class="fas fa-umbrella-beach"></i> Famous Beaches
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Red Beach - Unique red volcanic sand</li>
+                                <li>Kamari Beach - Black sand beach with luxury amenities</li>
+                                <li>Perissa Beach - Long stretch of black sand</li>
+                                <li>White Beach - Accessible only by boat</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Caldera Views</span>
+                        <span class="highlight">Sunset Oia</span>
+                        <span class="highlight">Luxury Villas</span>
+                        <span class="highlight">Wine Tours</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Destination 2 - Bali (Beaches & Pilgrims) -->
+            <div class="destination-box" data-categories="beaches pilgrims">
+                <img src="https://plus.unsplash.com/premium_photo-1677829177642-30def98b0963?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bali, Indonesia" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Bali, Indonesia</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Island of Gods
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> Apr-Oct
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Beaches Content -->
+                    <div class="content-section" id="bali-beaches">
+                        <div class="section-title">
+                            <i class="fas fa-umbrella-beach"></i> Famous Beaches
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Kuta Beach - Surfing and vibrant nightlife</li>
+                                <li>Seminyak Beach - Luxury beach clubs</li>
+                                <li>Nusa Dua - Pristine white sand beaches</li>
+                                <li>Padang Padang - Hidden beach from "Eat Pray Love"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Pilgrims Content -->
+                    <div class="content-section" id="bali-pilgrims">
+                        <div class="section-title">
+                            <i class="fas fa-place-of-worship"></i> Sacred Sites
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Tanah Lot - Sea temple on a rock formation</li>
+                                <li>Besakih Temple - Bali's mother temple</li>
+                                <li>Ulun Danu Beratan - Picturesque lake temple</li>
+                                <li>Uluwatu Temple - Cliffside temple with kecak dance</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Lush Jungles</span>
+                        <span class="highlight">Ancient Temples</span>
+                        <span class="highlight">Vibrant Culture</span>
+                        <span class="highlight">Luxury Resorts</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Destination 3 - Kyoto (Pilgrims) -->
+            <div class="destination-box" data-categories="pilgrims">
+                <img src="https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kyoto, Japan" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Kyoto, Japan</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Cultural Heart
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> Mar-May, Oct-Nov
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="rating-number">4.2</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Pilgrims Content -->
+                    <div class="content-section active" id="kyoto-pilgrims">
+                        <div class="section-title">
+                            <i class="fas fa-place-of-worship"></i> Sacred Sites
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Kinkaku-ji - Golden Pavilion</li>
+                                <li>Fushimi Inari - Famous for thousands of torii gates</li>
+                                <li>Kiyomizu-dera - Wooden temple with panoramic views</li>
+                                <li>Ryoan-ji - Zen rock garden temple</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Golden Pavilion</span>
+                        <span class="highlight">Cherry Blossoms</span>
+                        <span class="highlight">Ryokan Stays</span>
+                        <span class="highlight">Tea Ceremonies</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Destination 4 - Varanasi (Pilgrims & Insights) -->
+            <div class="destination-box" data-categories="pilgrims insights">
+                <img src="https://images.unsplash.com/photo-1684121784712-48d0e3800e43?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fFZhcmFuYXNpJTJDJTIwSW5kaWF8ZW58MHx8MHx8fDA%3D" alt="Varanasi, India" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Varanasi, India</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Spiritual Capital
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> Oct-Mar
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-number">4.6</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Pilgrims Content -->
+                    <div class="content-section" id="varanasi-pilgrims">
+                        <div class="section-title">
+                            <i class="fas fa-place-of-worship"></i> Sacred Sites
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Kashi Vishwanath Temple - Most important Shiva temple</li>
+                                <li>Sankat Mochan Hanuman Temple</li>
+                                <li>Durga Temple - Famous "Monkey Temple"</li>
+                                <li>Tulsi Manas Temple - Dedicated to Lord Rama</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Local Insights -->
+                    <div class="content-section" id="varanasi-insights">
+                        <div class="section-title">
+                            <i class="fas fa-lightbulb"></i> Local Insights
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Attend the Ganga Aarti ceremony at sunset</li>
+                                <li>Take a dawn boat ride on the Ganges</li>
+                                <li>Respect photography restrictions at cremation ghats</li>
+                                <li>Try local street food like kachori and lassi</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Ganges River</span>
+                        <span class="highlight">Ancient Temples</span>
+                        <span class="highlight">Spiritual Hub</span>
+                        <span class="highlight">Cultural Richness</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Destination 5 - Maldives (Beaches & Insights) -->
+            <div class="destination-box" data-categories="beaches insights">
+                <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Maldives" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Maldives</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Indian Ocean Paradise
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> Nov-Apr
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Beaches Content -->
+                    <div class="content-section" id="maldives-beaches">
+                        <div class="section-title">
+                            <i class="fas fa-umbrella-beach"></i> Famous Beaches
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Biyadhoo Island - Best for snorkeling</li>
+                                <li>Cocoa Island - Powder-soft white sand</li>
+                                <li>Baros Island - Romantic private beaches</li>
+                                <li>Mirihi Island - Secluded luxury beaches</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Local Insights -->
+                    <div class="content-section" id="maldives-insights">
+                        <div class="section-title">
+                            <i class="fas fa-lightbulb"></i> Local Insights
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Resort islands have different rules than local islands</li>
+                                <li>Alcohol only available on resort islands</li>
+                                <li>Dress modestly when visiting local islands</li>
+                                <li>Try traditional Maldivian breakfast of mas huni</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Overwater Bungalows</span>
+                        <span class="highlight">Crystal Waters</span>
+                        <span class="highlight">Marine Life</span>
+                        <span class="highlight">Private Islands</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Destination 6 - Jerusalem (Pilgrims & Insights) -->
+            <div class="destination-box" data-categories="pilgrims insights">
+                <img src="https://images.unsplash.com/photo-1549575483-14686a641c28?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fEplcnVzYWxlbSUyQyUyMElzcmFlbHxlbnwwfHwwfHx8MA%3D%3D" alt="Jerusalem, Israel" class="destination-image">
+                <div class="destination-details">
+                    <div class="destination-name">Jerusalem, Israel</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Holy City
+                    </div>
+                    <div class="meta-info">
+                        <div class="best-time">
+                            <i class="fas fa-calendar-alt"></i> Apr-May, Sep-Oct
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-number">4.8</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Pilgrims Content -->
+                    <div class="content-section" id="jerusalem-pilgrims">
+                        <div class="section-title">
+                            <i class="fas fa-place-of-worship"></i> Sacred Sites
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Western Wall - Holiest Jewish site</li>
+                                <li>Church of the Holy Sepulchre - Christian holy site</li>
+                                <li>Dome of the Rock - Iconic Islamic shrine</li>
+                                <li>Al-Aqsa Mosque - Third holiest site in Islam</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Local Insights -->
+                    <div class="content-section" id="jerusalem-insights">
+                        <div class="section-title">
+                            <i class="fas fa-lightbulb"></i> Local Insights
+                        </div>
+                        <div class="section-content">
+                            <ul class="section-list">
+                                <li>Dress modestly when visiting holy sites</li>
+                                <li>Friday sunset to Saturday sunset is Shabbat</li>
+                                <li>Explore Machane Yehuda market for local flavors</li>
+                                <li>Visit the Tower of David light show at night</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="highlights">
+                        <span class="highlight">Old City</span>
+                        <span class="highlight">Holy Sites</span>
+                        <span class="highlight">Rich History</span>
+                        <span class="highlight">Cultural Mix</span>
+                    </div>
+                    <a href="#" class="explore-button">
+                        <i class="fas fa-arrow-right"></i> Discover
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Premium Action Buttons -->
+        <div class="action-buttons">
+            <a href="hotelpage.html" class="nav-button" id="backButton">
+                <i class="fas fa-chevron-left"></i> Back to Hotels
+            </a>
+            <a href="index.html" class="nav-button" id="generateTripButton">
+                Create Custom Itinerary <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Premium Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>© 2023 Luxury Travel Concierge. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation for destination boxes on load
+            const boxes = document.querySelectorAll('.destination-box');
+            boxes.forEach((box, index) => {
+                setTimeout(() => {
+                    box.classList.add('visible');
+                }, 150 * index);
+            });
+            
+            // Filter dropdown functionality
+            const filterButton = document.getElementById('filterButton');
+            const filterOptions = document.getElementById('filterOptions');
+            const filterOptionItems = document.querySelectorAll('.filter-option');
+            const destinationBoxes = document.querySelectorAll('.destination-box');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            // Toggle dropdown
+            filterButton.addEventListener('click', function() {
+                filterOptions.classList.toggle('show');
+                filterButton.classList.toggle('active');
+            });
+            
+            // Handle filter selection
+            filterOptionItems.forEach(option => {
+                option.addEventListener('click', function() {
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Update button text
+                    filterButton.querySelector('span').textContent = this.textContent;
+                    
+                    // Mark active option
+                    filterOptionItems.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Close dropdown
+                    filterOptions.classList.remove('show');
+                    filterButton.classList.remove('active');
+                    
+                    // Filter content and boxes
+                    filterContentAndBoxes(filterValue);
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!filterButton.contains(e.target)) {
+                    filterOptions.classList.remove('show');
+                    filterButton.classList.remove('active');
+                }
+            });
+            
+            // Filter content and boxes based on selection
+            function filterContentAndBoxes(filterValue) {
+                // First hide all content sections
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show all boxes for 'all' filter
+                if (filterValue === 'all') {
+                    destinationBoxes.forEach(box => {
+                        box.classList.remove('hidden');
+                        box.classList.add('visible');
+                    });
+                    return;
+                }
+                
+                // Filter boxes based on categories
+                destinationBoxes.forEach(box => {
+                    const categories = box.getAttribute('data-categories').split(' ');
+                    
+                    if (categories.includes(filterValue)) {
+                        // Show matching boxes
+                        box.classList.remove('hidden');
+                        box.classList.add('visible');
+                        
+                        // Show the relevant content section
+                        const destinationId = box.id || box.querySelector('.content-section').id.split('-')[0];
+                        const contentSection = box.querySelector(`#${destinationId}-${filterValue}`);
+                        if (contentSection) {
+                            contentSection.classList.add('active');
+                        }
+                    } else {
+                        // Hide non-matching boxes
+                        box.classList.add('hidden');
+                        box.classList.remove('visible');
+                    }
+                });
+            }
+            
+            // Initialize with 'all' filter
+            filterOptionItems[0].click();
+        });
+    </script>
+</body>
+</html>

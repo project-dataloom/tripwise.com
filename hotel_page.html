@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Listings</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .hotel-card {
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .hotel-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }
+        
+        .hotel-image-box {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .hotel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 15px;
+            color: white;
+        }
+        
+        .hotel-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .hotel-rating {
+            color: #FFD700;
+        }
+        
+        .hotel-description {
+            padding: 20px;
+            background: white;
+        }
+        
+        .hotel-description p {
+            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .hotel-price {
+            font-weight: bold;
+            color: #2a6496;
+            font-size: 1.2rem;
+        }
+        
+        .amenity-icon {
+            margin-right: 8px;
+            color: #2a6496;
+        }
+        
+        .view-details-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .view-details-btn:hover {
+            transform: scale(1.02);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2a6496;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .back-to-top:hover {
+            background: #1d4b75;
+            color: white;
+        }
+        
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Featured Hotels</h2>
+        
+        <div class="row">
+            <!-- First Hotel Box -->
+            <div class="col-md-6">
+                <div class="hotel-card" onclick="redirectToHotel('luxury-beach-resort')">
+                    <div class="hotel-image-box" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                        <div class="hotel-overlay">
+                            <div class="hotel-title">Budget Frindly Hotels</div>
+                            <div class="hotel-rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="hotel-description">
+                        <p>Experience unparalleled luxury at our beachfront resort with stunning ocean views from every room.</p>
+                        <p>Enjoy private beach access, infinity pools, and world-class spa services for complete relaxation.</p>
+                        <p>Our gourmet restaurants offer a variety of international cuisines prepared by award-winning chefs.</p>
+                        <p>All suites feature modern amenities, plush bedding, and private balconies or terraces.</p>
+                        <p>Perfect for romantic getaways, family vacations, or destination weddings with our event planning services.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <span class="amenity-icon"><i class="fas fa-wifi"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-swimming-pool"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-utensils"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-spa"></i></span>
+                            </div>
+                            <div class="hotel-price">Max-$100/night</div>
+                        </div>
+                        <a href="budget_main.html" class="btn btn-primary w-100 mt-3 view-details-btn">View Details & Book</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Second Hotel Box -->
+            <div class="col-md-6">
+                <div class="hotel-card" onclick="redirectToHotel('mountain-view-hotel')">
+                    <div class="hotel-image-box" style="background-image: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                        <div class="hotel-overlay">
+                            <div class="hotel-title">premium Frindly Hotels</div>
+                            <div class="hotel-rating">★★★★☆</div>
+                        </div>
+                    </div>
+                    <div class="hotel-description">
+                        <p>Nestled in the Swiss Alps, our hotel offers breathtaking mountain views from every window.</p>
+                        <p>Cozy yet luxurious rooms feature fireplaces, heated floors, and premium bedding for ultimate comfort.</p>
+                        <p>Direct access to ski slopes in winter and hiking trails in summer makes us a year-round destination.</p>
+                        <p>Our spa features an indoor pool, saunas, and massage services using local herbal treatments.</p>
+                        <p>Enjoy authentic Swiss cuisine in our restaurant with ingredients sourced from local producers.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <span class="amenity-icon"><i class="fas fa-wifi"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-skiing"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-hot-tub"></i></span>
+                                <span class="amenity-icon"><i class="fas fa-dumbbell"></i></span>
+                            </div>
+                            <div class="hotel-price">Max-$280/night</div>
+                        </div>
+                        <a href="premium_main.html" class="btn btn-primary w-100 mt-3 view-details-btn">View Details & Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Function to redirect to hotel details page
+        function redirectToHotel(hotelSlug) {
+            window.location.href = `hotel-details.html?hotel=${hotelSlug}`;
+        }
+        
+        // Back to top button
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                if ($(this).scrollTop() > 100) {
+                    $('.back-to-top').fadeIn();
+                } else {
+                    $('.back-to-top').fadeOut();
+                }
+            });
+            
+            $('.back-to-top').click(function(){
+                $('html, body').animate({scrollTop : 0}, 800);
+                return false;
+            });
+
+            // Prevent default behavior for navigation buttons if they're just placeholders
+            $('.page-navigation a').click(function(e) {
+                if($(this).attr('href') === '#') {
+                    e.preventDefault();
+                    alert('This is a placeholder. In a real application, this would navigate to other hotel listings.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

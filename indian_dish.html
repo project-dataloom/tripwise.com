@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Cuisine - Delicious Dishes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .header-container {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-container::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .heading {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subheading {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .dish-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .dish-box {
+            flex: 1 1 300px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .veg-box {
+            border-left: 4px solid #27ae60;
+        }
+        
+        .nonveg-box {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .popular-box {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .dish-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .dish-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .dish-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dish-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+        
+        .veg-name span {
+            color: #27ae60;
+            font-weight: 700;
+        }
+        
+        .nonveg-name span {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .popular-name span {
+            color: #f39c12;
+            font-weight: 700;
+        }
+        
+        .dish-origin {
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dish-origin i {
+            margin-right: 8px;
+        }
+        
+        .veg-origin i {
+            color: #27ae60;
+        }
+        
+        .nonveg-origin i {
+            color: #e74c3c;
+        }
+        
+        .popular-origin i {
+            color: #f39c12;
+        }
+        
+        .dish-tags {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .veg-tag {
+            background: #eafaf1;
+            color: #27ae60;
+        }
+        
+        .nonveg-tag {
+            background: #fdeaea;
+            color: #e74c3c;
+        }
+        
+        .popular-tag {
+            background: #fef5e7;
+            color: #f39c12;
+        }
+        
+        .dish-tag {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .order-button {
+            align-self: flex-start;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 15px;
+            margin-top: auto;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .veg-button {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            box-shadow: 0 3px 8px rgba(46, 204, 113, 0.3);
+        }
+        
+        .nonveg-button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        .popular-button {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            box-shadow: 0 3px 8px rgba(243, 156, 18, 0.3);
+        }
+        
+        .veg-button:hover {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(46, 204, 113, 0.4);
+        }
+        
+        .nonveg-button:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(231, 76, 60, 0.4);
+        }
+        
+        .popular-button:hover {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(243, 156, 18, 0.4);
+        }
+        
+        .order-button i {
+            margin-right: 8px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            justify-content: space-between;
+        }
+        
+        .stars {
+            color: #FFD700;
+        }
+        
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #777;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(230, 126, 34, 0.3);
+            text-decoration: none;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(230, 126, 34, 0.4);
+        }
+        
+        .nav-button i {
+            margin-right: 8px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e67e22;
+        }
+        
+        .veg-icon {
+            color: #27ae60;
+            margin-right: 5px;
+        }
+        
+        .nonveg-icon {
+            color: #e74c3c;
+            margin-right: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Indian Cuisine Header -->
+    <div class="header-container">
+        <h1 class="heading">Authentic Indian Cuisine</h1>
+        <p class="subheading">Experience the rich flavors and diverse dishes from across India</p>
+    </div>
+    
+    <!-- Vegetable Dishes Section -->
+    <h2 class="section-title"><i class="fas fa-leaf veg-icon"></i>Vegetable Dishes</h2>
+    <div class="dish-container">
+        <!-- Dish Box 1 -->
+        <div class="dish-box veg-box">
+            <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Paneer Butter Masala" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">₹220</div>
+                </div>
+                <div class="dish-name veg-name">Paneer Butter Masala</div>
+                <div class="dish-origin veg-origin">
+                    <i class="fas fa-globe-asia"></i> North Indian Specialty
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag veg-tag">Creamy</span>
+                    <span class="dish-tag veg-tag">Spicy</span>
+                    <span class="dish-tag veg-tag">Rich</span>
+                    <span class="dish-tag veg-tag">Paneer</span>
+                </div>
+                <a href="#" class="order-button veg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 2 -->
+        <div class="dish-box veg-box">
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Dal Tadka" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="price">₹150</div>
+                </div>
+                <div class="dish-name veg-name">Dal Tadka</div>
+                <div class="dish-origin veg-origin">
+                    <i class="fas fa-globe-asia"></i> Popular Across India
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag veg-tag">Lentils</span>
+                    <span class="dish-tag veg-tag">Comfort Food</span>
+                    <span class="dish-tag veg-tag">Protein Rich</span>
+                    <span class="dish-tag veg-tag">Aromatic</span>
+                </div>
+                <a href="#" class="order-button veg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 3 -->
+        <div class="dish-box veg-box">
+            <img src="https://images.unsplash.com/photo-1606509038809-5eb0a9e1ad6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Aloo Gobi" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="price">₹180</div>
+                </div>
+                <div class="dish-name veg-name">Aloo Gobi</div>
+                <div class="dish-origin veg-origin">
+                    <i class="fas fa-globe-asia"></i> Punjabi Cuisine
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag veg-tag">Potato</span>
+                    <span class="dish-tag veg-tag">Cauliflower</span>
+                    <span class="dish-tag veg-tag">Dry Curry</span>
+                    <span class="dish-tag veg-tag">Home-style</span>
+                </div>
+                <a href="#" class="order-button veg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Non-Vegetable Dishes Section -->
+    <h2 class="section-title"><i class="fas fa-drumstick-bite nonveg-icon"></i>Non-Vegetable Dishes</h2>
+    <div class="dish-container">
+        <!-- Dish Box 1 -->
+        <div class="dish-box nonveg-box">
+            <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Butter Chicken" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">₹280</div>
+                </div>
+                <div class="dish-name nonveg-name">Butter Chicken</div>
+                <div class="dish-origin nonveg-origin">
+                    <i class="fas fa-globe-asia"></i> Punjabi Delicacy
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag nonveg-tag">Chicken</span>
+                    <span class="dish-tag nonveg-tag">Creamy</span>
+                    <span class="dish-tag nonveg-tag">Tandoori</span>
+                    <span class="dish-tag nonveg-tag">Signature Dish</span>
+                </div>
+                <a href="#" class="order-button nonveg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 2 -->
+        <div class="dish-box nonveg-box">
+            <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Rogan Josh" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="price">₹320</div>
+                </div>
+                <div class="dish-name nonveg-name">Rogan Josh</div>
+                <div class="dish-origin nonveg-origin">
+                    <i class="fas fa-globe-asia"></i> Kashmiri Cuisine
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag nonveg-tag">Lamb</span>
+                    <span class="dish-tag nonveg-tag">Aromatic</span>
+                    <span class="dish-tag nonveg-tag">Red Curry</span>
+                    <span class="dish-tag nonveg-tag">Spicy</span>
+                </div>
+                <a href="#" class="order-button nonveg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 3 -->
+        <div class="dish-box nonveg-box">
+            <img src="https://images.unsplash.com/photo-1601050690117-64b6d9a23757?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Fish Curry" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="price">₹350</div>
+                </div>
+                <div class="dish-name nonveg-name">Fish Curry</div>
+                <div class="dish-origin nonveg-origin">
+                    <i class="fas fa-globe-asia"></i> Coastal Special
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag nonveg-tag">Seafood</span>
+                    <span class="dish-tag nonveg-tag">Coconut</span>
+                    <span class="dish-tag nonveg-tag">Tangy</span>
+                    <span class="dish-tag nonveg-tag">Goan Style</span>
+                </div>
+                <a href="#" class="order-button nonveg-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popular Dishes Section -->
+    <h2 class="section-title"><i class="fas fa-fire popular-icon"></i>Popular Indian Dishes</h2>
+    <div class="dish-container">
+        <!-- Dish Box 1 -->
+        <div class="dish-box popular-box">
+            <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Biryani" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">₹250</div>
+                </div>
+                <div class="dish-name popular-name">Biryani</div>
+                <div class="dish-origin popular-origin">
+                    <i class="fas fa-globe-asia"></i> Hyderabadi Special
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag popular-tag">Rice Dish</span>
+                    <span class="dish-tag popular-tag">Fragrant</span>
+                    <span class="dish-tag popular-tag">Meat/Veg</span>
+                    <span class="dish-tag popular-tag">Royal Dish</span>
+                </div>
+                <a href="#" class="order-button popular-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 2 -->
+        <div class="dish-box popular-box">
+            <img src="https://images.unsplash.com/photo-1633945274309-2c16c9682a8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Masala Dosa" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="price">₹120</div>
+                </div>
+                <div class="dish-name popular-name">Masala Dosa</div>
+                <div class="dish-origin popular-origin">
+                    <i class="fas fa-globe-asia"></i> South Indian
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag popular-tag">Breakfast</span>
+                    <span class="dish-tag popular-tag">Crispy</span>
+                    <span class="dish-tag popular-tag">Potato Filling</span>
+                    <span class="dish-tag popular-tag">Sambar</span>
+                </div>
+                <a href="#" class="order-button popular-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish Box 3 -->
+        <div class="dish-box popular-box">
+            <img src="https://media.istockphoto.com/id/174961905/photo/gobi-aloo-indian-curry-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=TqN2Wy6gGVTCLm-nA0Rou7xP9N-RohG8cemNw36SNI8=" alt="Chole Bhature" class="dish-image">
+            <div class="dish-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="price">₹150</div>
+                </div>
+                <div class="dish-name popular-name">Chole Bhature</div>
+                <div class="dish-origin popular-origin">
+                    <i class="fas fa-globe-asia"></i> North Indian
+                </div>
+                <div class="dish-tags">
+                    <span class="dish-tag popular-tag">Chickpeas</span>
+                    <span class="dish-tag popular-tag">Fried Bread</span>
+                    <span class="dish-tag popular-tag">Hearty</span>
+                    <span class="dish-tag popular-tag">Street Food</span>
+                </div>
+                <a href="#" class="order-button popular-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="premium.html" class="nav-button" id="backButton">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add any JavaScript functionality here if needed
+        });
+    </script>
+</body>
+</html>

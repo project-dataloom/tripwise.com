@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Hotel & Food Collection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .header-container {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-container::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .heading {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subheading {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hotel-container, .food-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .hotel-box, .food-box {
+            flex: 1 1 300px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hotel-box {
+            border-left: 4px solid #4a6491;
+        }
+        
+        .food-box {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .hotel-box:hover, .food-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .hotel-image, .food-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hotel-details, .food-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .hotel-name, .food-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+        
+        .hotel-name span {
+            color: #4a6491;
+            font-weight: 700;
+        }
+        
+        .food-name span {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .location, .food-origin {
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .location i, .food-origin i {
+            margin-right: 8px;
+            color: #4a6491;
+        }
+        
+        .food-origin i {
+            color: #e74c3c;
+        }
+        
+        .amenities, .food-tags {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .amenity, .food-tag {
+            background: #f0f4f8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .food-tag {
+            background: #fdeaea;
+        }
+        
+        .book-button, .explore-button {
+            align-self: flex-start;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 15px;
+            margin-top: auto;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .book-button {
+            background: linear-gradient(135deg, #4a6491, #2c3e50);
+            box-shadow: 0 3px 8px rgba(74, 100, 145, 0.3);
+        }
+        
+        .explore-button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        .book-button:hover {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(74, 100, 145, 0.4);
+        }
+        
+        .explore-button:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(231, 76, 60, 0.4);
+        }
+        
+        .book-button i, .explore-button i {
+            margin-right: 8px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            justify-content: space-between;
+        }
+        
+        .stars {
+            color: #FFD700;
+        }
+        
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #777;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #4a6491, #2c3e50);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(74, 100, 145, 0.3);
+            text-decoration: none;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(74, 100, 145, 0.4);
+        }
+        
+        .nav-button i {
+            margin-right: 8px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a6491;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Premium Header -->
+    <div class="header-container">
+        <h1 class="heading">Premium Hotel Collection</h1>
+        <p class="subheading">Discover your perfect stay with our curated selection of luxury hotels</p>
+    </div>
+    
+    <!-- Hotel Container - All 6 hotels displayed at once -->
+    <div class="hotel-container">
+        <!-- Hotel Box 1 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Luxury Hotel" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">$249<small>/night</small></div>
+                </div>
+                <div class="hotel-name">Grand Plaza Hotel</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 123 Ocean View, Miami Beach, FL
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Free WiFi</span>
+                    <span class="amenity">Pool</span>
+                    <span class="amenity">Spa</span>
+                    <span class="amenity">Restaurant</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hotel Box 2 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Boutique Hotel" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="price">$189<small>/night</small></div>
+                </div>
+                <div class="hotel-name">Urban Boutique Hotel</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 456 Downtown, New York, NY
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Free WiFi</span>
+                    <span class="amenity">Gym</span>
+                    <span class="amenity">Bar</span>
+                    <span class="amenity">Breakfast</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hotel Box 3 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Resort" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="price">$349<small>/night</small></div>
+                </div>
+                <div class="hotel-name">Paradise Island Resort</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 789 Beachfront, Maui, HI
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Private Beach</span>
+                    <span class="amenity">Spa</span>
+                    <span class="amenity">3 Restaurants</span>
+                    <span class="amenity">Free Parking</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hotel Box 4 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Mountain Lodge" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="price">$279<small>/night</small></div>
+                </div>
+                <div class="hotel-name">Alpine Mountain Lodge</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 101 Mountain View, Aspen, CO
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Ski-in/Ski-out</span>
+                    <span class="amenity">Hot Tub</span>
+                    <span class="amenity">Fireplace</span>
+                    <span class="amenity">Restaurant</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hotel Box 5 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="City Hotel" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="price">$199<small>/night</small></div>
+                </div>
+                <div class="hotel-name">Metropolitan Suites</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 202 Central Ave, Chicago, IL
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Free WiFi</span>
+                    <span class="amenity">Gym</span>
+                    <span class="amenity">Business Center</span>
+                    <span class="amenity">Concierge</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hotel Box 6 -->
+        <div class="hotel-box">
+            <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Historic Hotel" class="hotel-image">
+            <div class="hotel-details">
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">$229<small>/night</small></div>
+                </div>
+                <div class="hotel-name">The Royal Heritage</div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> 303 Historic Square, Boston, MA
+                </div>
+                <div class="amenities">
+                    <span class="amenity">Historic Building</span>
+                    <span class="amenity">Fine Dining</span>
+                    <span class="amenity">Spa</span>
+                    <span class="amenity">Concierge</span>
+                </div>
+                <a href="https://www.booking.com" class="book-button">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Food Cuisine Section -->
+    <h2 class="section-title">Explore World Cuisines</h2>
+    <div class="food-container">
+        <!-- Indian Cuisine Box -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Indian Cuisine" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Local Cuisine</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Origin: India
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag">Spicy</span>
+                    <span class="food-tag">Vegetarian</span>
+                    <span class="food-tag">Rich Flavors</span>
+                    <span class="food-tag">Diverse</span>
+                </div>
+                <a href="local_dish.html" class="explore-button">
+                    <i class="fas fa-utensils"></i> Explore Local Food
+                </a>
+            </div>
+        </div>
+        
+        <!-- UK Cuisine Box -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1518492104633-130d0cc84637?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="UK Cuisine" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Indian Cuisine</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-europe"></i> Origin: United Kingdom
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag">Comfort Food</span>
+                    <span class="food-tag">Roasts</span>
+                    <span class="food-tag">Fish & Chips</span>
+                    <span class="food-tag">Pies</span>
+                </div>
+                <a href="indian_dish.html" class="explore-button">
+                    <i class="fas fa-utensils"></i> Explore Indian Food
+                </a>
+            </div>
+        </div>
+        
+        <!-- Chinese Cuisine Box -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Chinese Cuisine" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Chinese Cuisine</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Origin: China
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag">Noodles</span>
+                    <span class="food-tag">Dim Sum</span>
+                    <span class="food-tag">Stir Fry</span>
+                    <span class="food-tag">Dumplings</span>
+                </div>
+                <a href="Chinese_dish.html" class="explore-button">
+                    <i class="fas fa-utensils"></i> Explore Chinese Food
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="hotel_page.html" class="nav-button" id="backButton">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <a href="premium_location.html" class="nav-button" id="generateTripButton">
+            <i class="fas fa-magic"></i> Generate Trip
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // All buttons will now directly redirect to their href links
+            // No JavaScript intervention needed for the main functionality
+            
+            // You can add analytics or other tracking here if needed
+            // without preventing the default link behavior
+        });
+    </script>
+</body>
+</html>

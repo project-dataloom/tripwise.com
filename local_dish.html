@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Cuisine Collection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .header-container {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-container::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .heading {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subheading {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .food-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .food-box {
+            flex: 1 1 300px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .food-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .food-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .food-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .food-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+        
+        .food-name span {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .food-origin {
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .food-origin i {
+            color: #e74c3c;
+            margin-right: 8px;
+        }
+        
+        .food-tags {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .food-tag {
+            background: #fdeaea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .veg-tag {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .nonveg-tag {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .popular-tag {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+        
+        .order-button {
+            align-self: flex-start;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 15px;
+            margin-top: auto;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            text-align: center;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        .order-button:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(231, 76, 60, 0.4);
+        }
+        
+        .order-button i {
+            margin-right: 8px;
+        }
+        
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #777;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #4a6491, #2c3e50);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(74, 100, 145, 0.3);
+            text-decoration: none;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(74, 100, 145, 0.4);
+        }
+        
+        .nav-button i {
+            margin-right: 8px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e74c3c;
+        }
+        
+        .veg-icon {
+            color: #2e7d32;
+            margin-right: 5px;
+        }
+        
+        .nonveg-icon {
+            color: #c62828;
+            margin-right: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Premium Header -->
+    <div class="header-container">
+        <h1 class="heading">Local Cuisine Collection</h1>
+        <p class="subheading">Discover authentic local flavors and traditional dishes</p>
+    </div>
+    
+    <!-- Vegetable Dishes Section -->
+    <h2 class="section-title">
+        <i class="fas fa-leaf veg-icon"></i> Vegetable Dishes
+    </h2>
+    <div class="food-container">
+        <!-- Dish 1 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Vegetable Curry" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Mixed Vegetable Curry</div>
+                <div class="price">$8.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Traditional local recipe
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag veg-tag">Vegetarian</span>
+                    <span class="food-tag">Healthy</span>
+                    <span class="food-tag">Spicy</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 2 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Salad" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Fresh Garden Salad</div>
+                <div class="price">$6.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Local fresh ingredients
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag veg-tag">Vegetarian</span>
+                    <span class="food-tag">Healthy</span>
+                    <span class="food-tag">Light</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 3 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Vegetable Stir Fry" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Seasonal Stir Fry</div>
+                <div class="price">$9.50</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Local seasonal vegetables
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag veg-tag">Vegetarian</span>
+                    <span class="food-tag">Quick</span>
+                    <span class="food-tag">Fresh</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Non-Vegetable Dishes Section -->
+    <h2 class="section-title">
+        <i class="fas fa-drumstick-bite nonveg-icon"></i> Non-Vegetable Dishes
+    </h2>
+    <div class="food-container">
+        <!-- Dish 1 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Grilled Chicken" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Grilled Chicken Special</div>
+                <div class="price">$12.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Local spices marinade
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag nonveg-tag">Non-Veg</span>
+                    <span class="food-tag">Grilled</span>
+                    <span class="food-tag">Protein</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 2 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Fish Dish" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Local Fish Curry</div>
+                <div class="price">$14.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Traditional recipe
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag nonveg-tag">Non-Veg</span>
+                    <span class="food-tag">Seafood</span>
+                    <span class="food-tag">Spicy</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 3 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Lamb Dish" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Herb Roasted Lamb</div>
+                <div class="price">$16.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Local herbs and spices
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag nonveg-tag">Non-Veg</span>
+                    <span class="food-tag">Premium</span>
+                    <span class="food-tag">Slow-cooked</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popular Dishes Section -->
+    <h2 class="section-title">
+        <i class="fas fa-fire popular-tag"></i> Popular Local Dishes
+    </h2>
+    <div class="food-container">
+        <!-- Dish 1 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Signature Dish" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Signature Local Platter</div>
+                <div class="price">$18.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Regional specialty
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag popular-tag">Chef's Choice</span>
+                    <span class="food-tag">Must-try</span>
+                    <span class="food-tag">Complete Meal</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 2 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Street Food" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Famous Street Food</div>
+                <div class="price">$5.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Local street food
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag popular-tag">Local Favorite</span>
+                    <span class="food-tag">Quick Bite</span>
+                    <span class="food-tag">Iconic</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dish 3 -->
+        <div class="food-box">
+            <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Dessert" class="food-image">
+            <div class="food-details">
+                <div class="food-name">Traditional Dessert</div>
+                <div class="price">$4.99</div>
+                <div class="food-origin">
+                    <i class="fas fa-globe-asia"></i> Century-old recipe
+                </div>
+                <div class="food-tags">
+                    <span class="food-tag popular-tag">Sweet</span>
+                    <span class="food-tag">Traditional</span>
+                    <span class="food-tag">Dessert</span>
+                </div>
+                <a href="#" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // All buttons will now directly redirect to their href links
+            // No JavaScript intervention needed for the main functionality
+            
+            // You can add analytics or other tracking here if needed
+            // without preventing the default link behavior
+        });
+    </script>
+</body>
+</html>
